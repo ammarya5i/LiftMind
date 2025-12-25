@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    border-color: #23232e;
+  }
+  
+  body {
+    background-color: #050508;
+    color: #f1f5f9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #0a0a0f;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #23232e;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #2c2c38;
+  }
+}
+
+@layer components {
+  /* Glass morphism card */
+  .glass-card {
+    @apply bg-dark-800/40 backdrop-blur-xl border border-dark-600/50;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  /* Neon border effect */
+  .neon-border {
+    @apply relative;
+  }
+
+  .neon-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(0, 163, 255, 0.5), rgba(251, 191, 36, 0.5));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Animated gradient text - powerlifting colors */
+  .gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #00a3ff 0%, #fbbf24 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 3s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Power button (main action - electric blue gradient) */
+  .btn-power {
+    @apply relative overflow-hidden bg-gradient-to-r from-electric-600 to-electric-500 text-white font-bold px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 hover:shadow-neon-lg hover:scale-105;
+  }
+
+  .btn-power::before {
+    content: '';
+    @apply absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full;
+    transition: transform 0.6s;
+  }
+
+  .btn-power:hover::before {
+    @apply translate-x-full;
+  }
+
+  /* Champion button (achievements - gold gradient) */
+  .btn-champion {
+    @apply relative overflow-hidden bg-gradient-to-r from-champion-600 to-champion-500 text-dark-950 font-bold px-6 py-3 rounded-xl;
+    @apply transition-all duration-300 hover:shadow-champion-lg hover:scale-105;
+  }
+
+  /* Stat card */
+  .stat-card {
+    @apply glass-card p-6 rounded-2xl;
+    @apply hover:border-electric-500/50 transition-all duration-300;
+    @apply hover:shadow-glow-electric;
+  }
+
+  /* Input dark */
+  .input-dark {
+    @apply bg-dark-800/50 border border-dark-600 text-slate-100 rounded-xl px-4 py-3;
+    @apply focus:outline-none focus:border-electric-500 focus:ring-2 focus:ring-electric-500/20;
+    @apply placeholder-slate-500 transition-all;
+  }
+
+  /* Section header */
+  .section-header {
+    @apply font-display text-3xl md:text-4xl font-bold;
+    @apply bg-gradient-to-r from-electric-400 via-fire-400 to-power-400 bg-clip-text text-transparent;
+  }
+
+  /* Glow effect */
+  .glow-effect {
+    @apply relative;
+  }
+
+  .glow-effect::after {
+    content: '';
+    @apply absolute inset-0 rounded-xl blur-xl opacity-50 -z-10;
+    background: inherit;
+  }
+}
+
+@layer utilities {
+  /* Grid pattern */
+  .grid-pattern {
+    background-image: 
+      linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  /* Scan line effect */
+  .scan-lines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  }
+}

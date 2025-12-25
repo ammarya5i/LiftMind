@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "liftmind-conversation-test",
+		"name": "LiftMind Conversation Test",
+		"description": "Full conversation test for LiftMind WhatsApp AI Coach",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. First Message - Hello",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"Hey\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "First message: User greets the bot"
+			},
+			"response": []
+		},
+		{
+			"name": "2. Second Message - Give Name",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"My name is John\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Second message: User provides their name. AI should remember this."
+			},
+			"response": []
+		},
+		{
+			"name": "3. Third Message - Share Goals",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"I want to compete in powerlifting\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Third message: User shares their goals. AI should remember name and continue conversation."
+			},
+			"response": []
+		},
+		{
+			"name": "4. Fourth Message - Share Experience",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"I'm intermediate\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Fourth message: User shares experience level. AI should continue onboarding."
+			},
+			"response": []
+		},
+		{
+			"name": "5. Fifth Message - Test Memory",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"What's my name?\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Fifth message: Test if AI remembers the user's name. Should respond 'John'."
+			},
+			"response": []
+		},
+		{
+			"name": "6. Sixth Message - Log Workout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"I just did bench 100kg x 5\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Sixth message: User logs a workout. AI should call logWorkout tool and save to database."
+			},
+			"response": []
+		},
+		{
+			"name": "7. Seventh Message - Ask About Workout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phoneNumber\": \"4917644206440\",\n    \"message\": \"What did I do today?\",\n    \"sessionId\": \"default\"\n}"
+				},
+				"url": {
+					"raw": "http://192.168.1.102:5678/webhook/liftmind-coach",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"1",
+						"102"
+					],
+					"port": "5678",
+					"path": [
+						"webhook",
+						"liftmind-coach"
+					]
+				},
+				"description": "Seventh message: Test if AI remembers the workout logged earlier."
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://192.168.1.102:5678/webhook/liftmind-coach",
+			"type": "string"
+		},
+		{
+			"key": "phone_number",
+			"value": "4917644206440",
+			"type": "string"
+		}
+	]
+}
+

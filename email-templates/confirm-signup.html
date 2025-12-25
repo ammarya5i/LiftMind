@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to LiftMind</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .email-wrapper {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            margin: 0;
+        }
+        .icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+        .content {
+            padding: 40px 30px;
+        }
+        h1 {
+            color: #0f172a;
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+        }
+        p {
+            color: #475569;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 24px 0;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+            color: white !important;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.3);
+        }
+        .button:hover {
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+        }
+        .info-box {
+            background: #f1f5f9;
+            border-left: 4px solid #6366f1;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 8px;
+        }
+        .info-box p {
+            margin: 0;
+            color: #334155;
+            font-size: 14px;
+        }
+        .footer {
+            background: #f8fafc;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        .footer p {
+            color: #64748b;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+        .social-links {
+            margin: 20px 0;
+        }
+        .social-links a {
+            color: #f43f5e;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 14px;
+        }
+        @media only screen and (max-width: 600px) {
+            .container {
+                padding: 20px 10px;
+            }
+            .content {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="email-wrapper">
+            <!-- Header -->
+            <div class="header">
+                <div class="icon">💪</div>
+                <h2 class="logo">LiftMind</h2>
+                <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 14px;">
+                    Your AI Powerlifting Coach
+                </p>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <h1>Welcome to LiftMind! 🎉</h1>
+                <p>
+                    We're excited to have you join our community of strength athletes! 
+                    You're one step away from unlocking personalized AI-powered coaching, 
+                    progress tracking, and achieving your powerlifting goals.
+                </p>
+
+                <p>Click the button below to confirm your email and get started:</p>
+
+                <center>
+                    <a href="{{ .ConfirmationURL }}" class="button">
+                        Confirm Your Email
+                    </a>
+                </center>
+
+                <div class="info-box">
+                    <p>
+                        <strong>🔒 Secure Link:</strong> This link will expire in 24 hours. 
+                        If you didn't create an account with LiftMind, you can safely ignore this email.
+                    </p>
+                </div>
+
+                <p><strong>What's Next?</strong></p>
+                <ul style="color: #475569; line-height: 1.8;">
+                    <li>💬 Chat with your AI coach</li>
+                    <li>📊 Track your workouts and progress</li>
+                    <li>📈 Analyze your strength gains</li>
+                    <li>🎯 Get personalized training programs</li>
+                </ul>
+
+                <p style="margin-top: 32px;">
+                    Need help? Reply to this email or visit our support center.
+                </p>
+
+                <p style="color: #64748b; font-size: 14px; margin-top: 32px;">
+                    Stay strong,<br>
+                    <strong style="color: #f43f5e;">The LiftMind Team</strong>
+                </p>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p><strong>LiftMind</strong> - AI-Powered Powerlifting Coach</p>
+                <div class="social-links">
+                    <a href="{{ .SiteURL }}">Visit Website</a> •
+                    <a href="{{ .SiteURL }}/coach">AI Coach</a> •
+                    <a href="{{ .SiteURL }}/progress">Progress</a>
+                </div>
+                <p style="font-size: 12px; color: #94a3b8;">
+                    © 2025 LiftMind. All rights reserved.<br>
+                    Built with 💪 for the powerlifting community
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
