@@ -36,7 +36,8 @@ LiftMind is a smart, AI-driven fitness coach web app that provides personalized 
 - **Rate Limiting** - Upstash Redis for API protection
 
 ### Deployment
-- **Vercel** - Frontend hosting (recommended)
+- **Netlify** - Frontend hosting (currently deployed)
+- **Vercel** - Alternative frontend hosting option
 - **Supabase Cloud** - Database & auth
 - **Upstash Redis** - Rate limiting (optional, for production)
 
@@ -48,8 +49,8 @@ LiftMind is a smart, AI-driven fitness coach web app that provides personalized 
 
 - Node.js 18+ installed
 - Supabase account
-- n8n instance (cloud or self-hosted)
-- DeepSeek API key (for n8n)
+- DeepSeek API key (for AI chat)
+- (Optional) Upstash Redis account for rate limiting
 
 ### Installation
 
@@ -212,21 +213,23 @@ See `supabase-schema.sql` for the complete SQL schema.
 - Quick action buttons
 
 ### Coach Chat (`/coach`)
-- Real-time chat interface
-- Connects to n8n webhook for AI responses
+- Real-time chat interface with AI fitness coach
+- Personalized responses based on training type
 - Message history with timestamps
 - Typing indicators
 - Beautiful message bubbles with animations
 
 ### Progress Analytics (`/progress`)
-- Total workouts and volume statistics
-- Current estimated 1RM for main lifts (Squat, Bench, Deadlift)
+- Dynamic metrics based on training type
+- Universal metrics: total workouts, volume, consistency
+- Type-specific highlights (e.g., powerlifting PRs, bodybuilding volume, CrossFit WODs)
 - Volume over time (bar chart)
-- 1RM progression (line chart)
+- Strength progression (line chart)
 - Uses Epley formula for 1RM estimation
 
 ### Settings (`/settings`)
 - Personal information (name, email, phone)
+- Training type selection (Powerlifting, Bodybuilding, CrossFit, Calisthenics, General, Endurance, Functional)
 - Training preferences (goal, experience, units, focus area)
 - Account management options
 
@@ -243,19 +246,36 @@ Authentication is handled by Supabase Auth. Users can:
 
 ## 🚢 Deployment
 
-### Frontend (Vercel)
+### Frontend (Netlify - Current Setup)
+
+The project is configured for Netlify deployment with `netlify.toml`.
+
+1. **Connect GitHub repository** to Netlify
+2. **Add environment variables** in Netlify dashboard
+3. **Deploy automatically** on every push to `main` branch
+
+**Production URL**: `https://liftmind.netlify.app`
+
+### Alternative: Deploy to Vercel
+
 \`\`\`bash
 npm run build
 vercel deploy
 \`\`\`
 
+Vercel automatically detects Next.js and configures build settings.
+
 ### Database (Supabase)
 - Already cloud-hosted
 - Run migrations via Supabase dashboard
+- Configure redirect URLs for authentication (see `DEPLOYMENT.md`)
 
 ### Environment Variables
 - Ensure all required environment variables are set in your deployment platform
 - Rate limiting requires Upstash Redis credentials (optional but recommended)
+- See `ENVIRONMENT_SETUP.md` for complete list
+
+For detailed deployment instructions, see `DEPLOYMENT.md`.
 
 ---
 

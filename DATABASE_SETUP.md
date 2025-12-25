@@ -61,8 +61,8 @@ DEEPSEEK_API_KEY=your-deepseek-key
 GEMINI_API_KEY=your-gemini-key
 OPENAI_API_KEY=your-openai-key
 
-# Optional: n8n Webhook
-NEXT_PUBLIC_N8N_WEBHOOK_URL=https://your-n8n-domain/webhook/powerlifting-coach
+# Optional: n8n Webhook (if using external workflow)
+NEXT_PUBLIC_N8N_WEBHOOK_URL=https://your-n8n-domain/webhook/ai-coach
 ```
 
 ### Step 6: Test Connection
