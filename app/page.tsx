@@ -170,25 +170,25 @@ export default function Dashboard() {
         </motion.div>
 
         {/* Primary Metric */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="glass-card p-6 rounded-2xl hover:border-champion-500/50 transition-all group"
-        >
-          <div className="flex items-center justify-between">
-            <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="glass-card p-6 rounded-2xl hover:border-champion-500/50 transition-all group"
+          >
+            <div className="flex items-center justify-between">
+              <div>
               <p className="text-sm text-slate-500 uppercase tracking-wide">{metrics.primaryMetric.label}</p>
               <p className="text-4xl font-display font-bold text-white mt-2">{metrics.primaryMetric.value || '—'}</p>
               <p className="text-xs text-slate-600 mt-1">
                 {metrics.primaryMetric.value ? `${metrics.primaryMetric.unit} • ${metrics.primaryMetric.description}` : 'No data yet'}
               </p>
+              </div>
+              <div className="w-14 h-14 bg-gradient-to-br from-champion-500/20 to-champion-500/5 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Trophy className="w-7 h-7 text-champion-400" />
+              </div>
             </div>
-            <div className="w-14 h-14 bg-gradient-to-br from-champion-500/20 to-champion-500/5 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Trophy className="w-7 h-7 text-champion-400" />
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
         {/* Secondary Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -218,24 +218,24 @@ export default function Dashboard() {
             const colors = getColorClasses(metric.color)
             
             return (
-              <motion.div
+          <motion.div
                 key={metric.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 + index * 0.1 }}
                 className={`glass-card p-6 rounded-2xl ${colors.border} transition-all group`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
+          >
+            <div className="flex items-center justify-between">
+              <div>
                     <p className="text-sm text-slate-500 uppercase tracking-wide">{metric.label}</p>
                     <p className="text-4xl font-display font-bold text-white mt-2">{metric.value || '—'}</p>
                     <p className="text-xs text-slate-600 mt-1">{metric.unit ? `${metric.unit}` : 'No data'}</p>
-                  </div>
+              </div>
                   <div className={`w-14 h-14 bg-gradient-to-br ${colors.bg} rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     <IconComponent className={`w-7 h-7 ${colors.text}`} />
-                  </div>
-                </div>
-              </motion.div>
+              </div>
+            </div>
+          </motion.div>
             )
           })}
         </div>

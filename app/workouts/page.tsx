@@ -275,7 +275,7 @@ export default function WorkoutsPage() {
                             <div className="min-w-0">
                               <h3 className="text-lg font-bold text-white truncate">{dateInfo.full}</h3>
                               <div className="flex items-center gap-2 mt-1">
-                                <p className="text-sm text-slate-400">{dateInfo.time}</p>
+                              <p className="text-sm text-slate-400">{dateInfo.time}</p>
                                 <span className="px-2 py-0.5 text-xs bg-electric-500/20 text-electric-400 rounded-full">
                                   {getTrainingTypeLabel(trainingType)}
                                 </span>

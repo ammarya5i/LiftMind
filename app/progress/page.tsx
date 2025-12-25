@@ -253,45 +253,45 @@ export default function ProgressPage() {
 
           {/* Primary Metric Card */}
           {progressMetrics.typeSpecific.primaryMetric && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <Card className="relative overflow-hidden bg-gradient-to-br from-champion-500/10 via-dark-800 to-electric-500/10 border-champion-500/30 hover:border-champion-500/50 hover:shadow-2xl transition-all duration-300 rounded-3xl group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-champion-500/10 rounded-full blur-3xl group-hover:bg-champion-500/20 transition-colors duration-500" />
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-electric-500/10 rounded-full blur-3xl group-hover:bg-electric-500/20 transition-colors duration-500" />
-                
-                <div className="relative z-10 p-8">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="p-4 rounded-2xl bg-gradient-to-br from-champion-500/20 to-champion-600/20 group-hover:scale-110 transition-transform duration-300">
-                        <Trophy className="w-10 h-10 text-champion-500" />
-                      </div>
-                      <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <Card className="relative overflow-hidden bg-gradient-to-br from-champion-500/10 via-dark-800 to-electric-500/10 border-champion-500/30 hover:border-champion-500/50 hover:shadow-2xl transition-all duration-300 rounded-3xl group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-champion-500/10 rounded-full blur-3xl group-hover:bg-champion-500/20 transition-colors duration-500" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-electric-500/10 rounded-full blur-3xl group-hover:bg-electric-500/20 transition-colors duration-500" />
+              
+              <div className="relative z-10 p-8">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-champion-500/20 to-champion-600/20 group-hover:scale-110 transition-transform duration-300">
+                      <Trophy className="w-10 h-10 text-champion-500" />
+                    </div>
+                    <div>
                         <h2 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white">
                           {progressMetrics.typeSpecific.primaryMetric.label}
                         </h2>
                         <p className="text-slate-400 text-sm md:text-base">
                           {trainingType === 'powerlifting' ? 'Squat + Bench + Deadlift' : 'Key Performance Indicator'}
                         </p>
-                      </div>
-                    </div>
-                    <div className="text-left md:text-right">
-                      <p className="text-xs md:text-sm text-slate-500">Last updated</p>
-                      <p className="text-sm md:text-base font-medium text-white">
-                        {workouts.length > 0 ? new Date(workouts[0].date).toLocaleDateString() : 'Never'}
-                      </p>
                     </div>
                   </div>
-                  
+                  <div className="text-left md:text-right">
+                    <p className="text-xs md:text-sm text-slate-500">Last updated</p>
+                    <p className="text-sm md:text-base font-medium text-white">
+                      {workouts.length > 0 ? new Date(workouts[0].date).toLocaleDateString() : 'Never'}
+                    </p>
+                  </div>
+                </div>
+                
                   <div className="text-center p-6 bg-dark-800/50 rounded-2xl border border-dark-700/50">
                     <p className="text-4xl md:text-5xl font-display font-bold text-champion-400">
                       {progressMetrics.typeSpecific.primaryMetric.value || '—'}
                     </p>
                     <p className="text-sm text-slate-500 mt-1">{progressMetrics.typeSpecific.primaryMetric.unit}</p>
-                  </div>
                 </div>
+              </div>
               </Card>
             </motion.div>
           )}
@@ -322,12 +322,12 @@ export default function ProgressPage() {
 
           {/* Type-Specific Highlights */}
           {progressMetrics.typeSpecific.highlights.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
               {progressMetrics.typeSpecific.highlights.map((highlight, index) => {
                 const colors = ['electric', 'champion', 'green']
                 const color = colors[index % colors.length]
@@ -376,7 +376,7 @@ export default function ProgressPage() {
                   </Card>
                 )
               })}
-            </motion.div>
+          </motion.div>
           )}
 
           {/* Charts Section */}

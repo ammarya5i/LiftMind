@@ -155,7 +155,7 @@ export default function LogWorkoutPage() {
       
       if (profile?.preferences) {
         if (profile.preferences.units) {
-          setUnits(profile.preferences.units)
+        setUnits(profile.preferences.units)
         }
         if (profile.preferences.trainingType) {
           setTrainingType(profile.preferences.trainingType)
@@ -430,7 +430,7 @@ export default function LogWorkoutPage() {
       toast.success('Workout saved successfully! 💪')
       // Success! Navigate to progress page
       setTimeout(() => {
-        router.push('/progress')
+      router.push('/progress')
       }, 1000)
     } catch (error) {
       console.error('Error saving workout:', error)

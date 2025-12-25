@@ -266,7 +266,7 @@ export default function SettingsPage() {
       await supabase.auth.signOut()
       toast.success('Account deleted successfully. Redirecting...')
       setTimeout(() => {
-        window.location.href = '/login'
+      window.location.href = '/login'
       }, 1500)
     } catch (error) {
       console.error('Error deleting account:', error)
