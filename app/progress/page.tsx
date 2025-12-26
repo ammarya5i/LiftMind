@@ -250,6 +250,26 @@ export default function ProgressPage() {
                 ? 'Track your bodyweight exercise progression and PRs'
                 : 'Track your exercise progression with detailed analytics'}
             </p>
+            </div>
+            
+            {/* Help Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="glass-card p-4 md:p-6 rounded-2xl border-electric-500/20"
+            >
+              <h3 className="text-sm md:text-base font-semibold text-white mb-2 flex items-center gap-2">
+                <Eye className="w-4 h-4 md:w-5 md:h-5 text-electric-400" />
+                Understanding Your Progress
+              </h3>
+              <ul className="space-y-1.5 text-xs md:text-sm text-slate-400 list-disc list-inside">
+                <li>Charts show your estimated 1RM (one-rep max) progression over time</li>
+                <li>Metrics adapt to your training type (Powerlifting, Bodybuilding, etc.)</li>
+                <li>Volume = total weight lifted (sets × reps × weight)</li>
+                <li>More workouts = more accurate progress tracking</li>
+              </ul>
+            </motion.div>
           </motion.div>
 
           {/* Primary Metric Card */}
