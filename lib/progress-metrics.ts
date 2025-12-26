@@ -44,8 +44,8 @@ function calculateUniversalMetrics(workouts: Workout[], units: 'kg' | 'lbs') {
   const exerciseStats: Record<string, { volume: number; sessions: number }> = {}
   let totalVolume = 0
   
-  workouts.forEach((workout: any) => {
-    workout.lifts.forEach((lift: any) => {
+  workouts.forEach((workout) => {
+    workout.lifts.forEach((lift) => {
       if (!lift.exercise) return
       
       const exerciseName = lift.exercise
@@ -53,7 +53,7 @@ function calculateUniversalMetrics(workouts: Workout[], units: 'kg' | 'lbs') {
         exerciseStats[exerciseName] = { volume: 0, sessions: 0 }
       }
       
-      const volume = lift.sets.reduce((sum: number, set: any) => {
+      const volume = lift.sets.reduce((sum: number, set) => {
         if (set.completed) {
           return sum + (set.weight * set.reps)
         }
@@ -173,10 +173,10 @@ function calculateBodybuildingProgress(workouts: Workout[], units: 'kg' | 'lbs')
   const muscleGroups: Record<string, { volume: number; sessions: number }> = {}
   let totalVolume = 0
   
-  workouts.forEach((workout: any) => {
-    workout.lifts.forEach((lift: any) => {
+  workouts.forEach((workout) => {
+    workout.lifts.forEach((lift) => {
       if (!lift.exercise) return
-      const volume = lift.sets.reduce((sum: number, set: any) => {
+      const volume = lift.sets.reduce((sum: number, set) => {
         if (set.completed) return sum + (set.weight * set.reps)
         return sum
       }, 0)
@@ -203,11 +203,11 @@ function calculateBodybuildingProgress(workouts: Workout[], units: 'kg' | 'lbs')
   
   // Create volume progression chart
   const volumeByDate: Record<string, number> = {}
-  workouts.forEach((workout: any) => {
+  workouts.forEach((workout) => {
     const date = new Date(workout.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     let dayVolume = 0
-    workout.lifts.forEach((lift: any) => {
-      dayVolume += lift.sets.reduce((sum: number, set: any) => {
+    workout.lifts.forEach((lift) => {
+      dayVolume += lift.sets.reduce((sum: number, set) => {
         if (set.completed) return sum + (set.weight * set.reps)
         return sum
       }, 0)
@@ -240,14 +240,14 @@ function calculateCrossFitProgress(workouts: Workout[]) {
   const functionalExercises = ['pull-up', 'push-up', 'burpee', 'box jump', 'kettlebell', 'row']
   const exercisePRs: Record<string, number> = {}
   
-  workouts.forEach((workout: any) => {
-    workout.lifts.forEach((lift: any) => {
+  workouts.forEach((workout) => {
+    workout.lifts.forEach((lift) => {
       if (!lift.exercise) return
       const exercise = lift.exercise.toLowerCase()
       const matched = functionalExercises.find(fe => exercise.includes(fe))
       
       if (matched) {
-        const maxReps = Math.max(...lift.sets.map((set: any) => set.completed ? set.reps : 0))
+        const maxReps = Math.max(...lift.sets.map((set) => set.completed ? set.reps : 0))
         if (maxReps > 0) {
           exercisePRs[matched] = Math.max(exercisePRs[matched] || 0, maxReps)
         }
@@ -277,16 +277,16 @@ function calculateCalisthenicsProgress(workouts: Workout[]) {
   const bodyweightExercises = ['pull-up', 'push-up', 'dip', 'muscle-up', 'handstand', 'pistol']
   const exerciseProgress: Record<string, LiftProgressData[]> = {}
   
-  workouts.forEach((workout: any) => {
+  workouts.forEach((workout) => {
     const date = new Date(workout.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
     
-    workout.lifts.forEach((lift: any) => {
+    workout.lifts.forEach((lift) => {
       if (!lift.exercise) return
       const exercise = lift.exercise.toLowerCase()
       const matched = bodyweightExercises.find(bw => exercise.includes(bw))
       
       if (matched) {
-        const maxReps = Math.max(...lift.sets.map((set: any) => set.completed ? set.reps : 0))
+        const maxReps = Math.max(...lift.sets.map((set) => set.completed ? set.reps : 0))
         if (maxReps > 0) {
           if (!exerciseProgress[matched]) exerciseProgress[matched] = []
           exerciseProgress[matched].push({ date, oneRm: maxReps })
@@ -322,12 +322,12 @@ function calculateGeneralProgress(workouts: Workout[], units: 'kg' | 'lbs') {
   const exerciseFrequency: Record<string, number> = {}
   let totalVolume = 0
   
-  workouts.forEach((workout: any) => {
-    workout.lifts.forEach((lift: any) => {
+  workouts.forEach((workout) => {
+    workout.lifts.forEach((lift) => {
       if (!lift.exercise) return
       exerciseFrequency[lift.exercise] = (exerciseFrequency[lift.exercise] || 0) + 1
       
-      const volume = lift.sets.reduce((sum: number, set: any) => {
+      const volume = lift.sets.reduce((sum: number, set) => {
         if (set.completed) return sum + (set.weight * set.reps)
         return sum
       }, 0)

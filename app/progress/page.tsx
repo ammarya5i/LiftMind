@@ -43,13 +43,13 @@ export default function ProgressPage() {
         .from('users')
         .select('preferences')
         .eq('id', authUser.id)
-        .single()
+        .single() as { data: { preferences: { units?: 'kg' | 'lbs'; trainingType?: TrainingType } | null } | null }
       
       let userUnits: 'kg' | 'lbs' = 'kg'
       let userTrainingType: TrainingType = 'general_strength'
       
-      if (profile && (profile as any).preferences) {
-        const prefs = (profile as any).preferences
+      if (profile?.preferences) {
+        const prefs = profile.preferences
         userUnits = prefs.units || 'kg'
         userTrainingType = getTrainingType(prefs)
         setUnits(userUnits)
@@ -200,16 +200,16 @@ export default function ProgressPage() {
                     </p>
                     <p className="text-sm text-slate-400">
                       {workout.lifts.length} exercise{workout.lifts.length !== 1 ? 's' : ''}
-                      {(workout as any).session_rpe && ` • RPE ${(workout as any).session_rpe}`}
+                      {workout.session_rpe && ` • RPE ${workout.session_rpe}`}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium text-white">
-                    {(workout as any).total_reps || 0} reps
+                    {workout.total_reps || 0} reps
                   </p>
                   <p className="text-xs text-slate-500">
-                    {(workout as any).working_sets || 0} working sets
+                    {workout.working_sets || 0} working sets
                   </p>
                 </div>
               </div>

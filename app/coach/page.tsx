@@ -15,10 +15,9 @@ import { parseAIResponse } from '@/lib/ai-actions'
 import { saveWorkoutAction, savePRAction, saveProfileAction } from '@/lib/action-handlers'
 import { Database } from '@/types/database.types'
 import { ParsedAIResponse } from '@/types/ai-actions'
-import { Send, Bot, User, X, ChevronDown, Plus, Trash2, MessageSquare, Camera, Image } from 'lucide-react'
+import { Send, Bot, User, X, ChevronDown, Plus, Trash2, MessageSquare } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-type UserProfile = Database['public']['Tables']['users']['Row']
 
 interface Message {
   id: string
@@ -695,6 +694,7 @@ function CoachPageContent() {
                   }`}>
                     {message.mediaUrl && (
                       <div className="mb-3">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img 
                           src={message.mediaUrl} 
                           alt="Uploaded media" 

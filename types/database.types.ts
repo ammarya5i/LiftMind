@@ -194,6 +194,7 @@ export interface UserPreferences {
   experience?: 'beginner' | 'intermediate' | 'advanced'
   focusArea?: string
   trainingType?: TrainingType
+  welcomeSeen?: boolean
 }
 
 export const TRAINING_TYPES: { value: TrainingType; label: string; description: string }[] = [

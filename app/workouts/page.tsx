@@ -69,10 +69,10 @@ export default function WorkoutsPage() {
         .from('users')
         .select('preferences')
         .eq('id', authUser.id)
-        .single()
+        .single() as { data: { preferences: { units?: 'kg' | 'lbs'; trainingType?: TrainingType } | null } | null }
       
-      if (profile && (profile as any).preferences) {
-        const prefs = (profile as any).preferences
+      if (profile?.preferences) {
+        const prefs = profile.preferences
         if (prefs.units) {
           setUnits(prefs.units)
         }
@@ -150,8 +150,8 @@ export default function WorkoutsPage() {
 
   function getWorkoutSummary(workout: Workout) {
     const totalSets = workout.lifts.reduce((acc, lift) => acc + lift.sets.length, 0)
-    const totalReps = (workout as any).total_reps || 0
-    const sessionRPE = (workout as any).session_rpe
+    const totalReps = workout.total_reps || 0
+    const sessionRPE = workout.session_rpe
 
     return {
       exercises: workout.lifts.length,

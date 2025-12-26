@@ -162,6 +162,7 @@ export function MediaUpload({ onAnalysisComplete, analysisType }: MediaUploadPro
                   className="w-full rounded-lg max-h-64 object-contain"
                 />
               ) : (
+                /* eslint-disable-next-line @next/next/no-img-element */
                 <img 
                   src={previewUrl} 
                   alt="Preview" 

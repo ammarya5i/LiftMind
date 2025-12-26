@@ -39,9 +39,9 @@ export default function WelcomePage() {
         .from('users')
         .select('preferences')
         .eq('id', user.id)
-        .single()
+        .single() as { data: { preferences: Record<string, unknown> | null } | null }
 
-      const preferences = profile?.preferences || {}
+      const preferences = (profile?.preferences as Record<string, unknown>) || {}
       await supabase
         .from('users')
         .update({

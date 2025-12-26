@@ -392,14 +392,14 @@ export default function LogWorkoutPage() {
         .insert({
           user_id: userId,
           date: workoutDate,
-          lifts: lifts as any,
+          lifts: lifts,
           notes: workoutNotes || '',
           session_rpe: sessionRPE,
           total_reps: totalReps,
           working_sets: workingSets,
           total_volume: Math.round(totalVolume),
           rpe_adjusted_volume: Math.round(rpeAdjustedVolume)
-        } as any)
+        })
         .select()
         .single()
 
@@ -424,8 +424,8 @@ export default function LogWorkoutPage() {
           volume: totalVolume,
           session_rpe: sessionRPE,
           exercises: lifts
-        }
-      } as any)
+        } as Record<string, unknown>
+      })
 
       toast.success('Workout saved successfully! 💪')
       // Success! Navigate to progress page

@@ -26,10 +26,19 @@ const TOPIC_COLORS = {
   programming: 'bg-accent',
 }
 
+interface Thread {
+  id: string
+  title: string
+  topic: string
+  created_at: string
+  updated_at: string
+  message_count: number
+}
+
 export default function ThreadsPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [threads, setThreads] = useState<any[]>([])
+  const [threads, setThreads] = useState<Thread[]>([])
   const [userId, setUserId] = useState<string>('')
   const [showNewThreadModal, setShowNewThreadModal] = useState(false)
   const [newThreadTitle, setNewThreadTitle] = useState('')

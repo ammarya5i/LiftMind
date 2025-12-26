@@ -390,7 +390,7 @@ export default function SettingsPage() {
             <Select
               label="Experience Level"
               value={formData.experience}
-              onChange={(e) => setFormData({ ...formData, experience: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, experience: e.target.value as 'beginner' | 'intermediate' | 'advanced' })}
               options={[
                 { value: 'beginner', label: 'Beginner (< 1 year)' },
                 { value: 'intermediate', label: 'Intermediate (1-3 years)' },
@@ -401,7 +401,7 @@ export default function SettingsPage() {
             <Select
               label="Units"
               value={formData.units}
-              onChange={(e) => setFormData({ ...formData, units: e.target.value as any })}
+              onChange={(e) => setFormData({ ...formData, units: e.target.value as 'kg' | 'lbs' })}
               options={[
                 { value: 'lbs', label: 'Pounds (lbs)' },
                 { value: 'kg', label: 'Kilograms (kg)' },
