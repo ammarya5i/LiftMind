@@ -30,34 +30,9 @@ export default function WelcomePage() {
 
 
   async function handleGetStarted() {
-    try {
-      const user = await getCurrentUser()
-      if (!user) return
-
-      // Mark welcome as seen in user preferences
-      const { data: profile } = await supabase
-        .from('users')
-        .select('preferences')
-        .eq('id', user.id)
-        .single() as { data: { preferences: Record<string, unknown> | null } | null }
-
-      const preferences = (profile?.preferences as Record<string, unknown>) || {}
-      const updateData: Record<string, unknown> = {
-        preferences: {
-          ...preferences,
-          welcomeSeen: true
-        }
-      }
-      await (supabase as any)
-        .from('users')
-        .update(updateData)
-        .eq('id', user.id)
-
-      router.push('/')
-    } catch (error) {
-      console.error('Error saving welcome status:', error)
-      router.push('/')
-    }
+    // Just navigate to dashboard - no need to mark as seen
+    // The banner will show on dashboard and can be dismissed
+    router.push('/')
   }
 
   const features = [

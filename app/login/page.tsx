@@ -37,20 +37,11 @@ export default function LoginPage() {
         })
         if (error) throw error
         
-        // Check if user has seen welcome page
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
-          const { data: profile } = await supabase
-            .from('users')
-            .select('preferences')
-            .eq('id', user.id)
-            .single() as { data: { preferences: { welcomeSeen?: boolean } | null } | null }
-          
-          const welcomeSeen = profile?.preferences?.welcomeSeen
-          router.push(welcomeSeen ? '/' : '/welcome')
-        } else {
-        router.push('/')
+        // Clear welcome banner dismissal on new login
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem('welcomeBannerDismissed')
         }
+        router.push('/')
       } else {
         // Sign up
         const { error } = await supabase.auth.signUp({
@@ -63,7 +54,11 @@ export default function LoginPage() {
         const { data: session } = await supabase.auth.getSession()
         if (session.session) {
           // No email confirmation required - user is logged in
-          router.push('/welcome')
+          // Clear welcome banner dismissal on new signup
+          if (typeof window !== 'undefined') {
+            sessionStorage.removeItem('welcomeBannerDismissed')
+          }
+          router.push('/')
         } else {
           // Email confirmation required - switch to sign in mode
           setError('Success! Account created. Check your email for the confirmation link, then sign in.')

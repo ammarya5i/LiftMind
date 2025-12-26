@@ -5,14 +5,13 @@ import { Loading } from '@/components/ui/Loading'
 import { Button } from '@/components/ui/Button'
 import { getCurrentUser, getUserProfile, getWorkouts } from '@/lib/supabase'
 import { Database } from '@/types/database.types'
-import { Calendar, Flame, Dumbbell, Zap, Brain, Sparkles, Trophy, TrendingUp } from 'lucide-react'
+import { Calendar, Flame, Dumbbell, Zap, Brain, Sparkles, Trophy, TrendingUp, X, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { getContextualTip } from '@/lib/ai-coach'
 import { getTrainingType } from '@/lib/training-type'
 import { calculateDashboardMetrics, DashboardMetrics } from '@/lib/dashboard-metrics'
 import { TrainingType } from '@/types/database.types'
-import { supabase } from '@/lib/supabase'
 
 type User = Database['public']['Tables']['users']['Row']
 
@@ -22,9 +21,17 @@ export default function Dashboard() {
   const [aiTip, setAiTip] = useState<string>('')
   const [loadingTip, setLoadingTip] = useState(false)
   const [metrics, setMetrics] = useState<DashboardMetrics | null>(null)
+  const [showWelcomeBanner, setShowWelcomeBanner] = useState(false)
 
   useEffect(() => {
     loadDashboard()
+    // Check if welcome banner should be shown (not dismissed this session)
+    if (typeof window !== 'undefined') {
+      const dismissed = sessionStorage.getItem('welcomeBannerDismissed')
+      if (!dismissed) {
+        setShowWelcomeBanner(true)
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -33,19 +40,6 @@ export default function Dashboard() {
       const authUser = await getCurrentUser()
       if (!authUser) {
         window.location.href = '/login'
-        return
-      }
-
-      // Check if user has seen welcome page
-      const { data: profileData } = await supabase
-        .from('users')
-        .select('preferences')
-        .eq('id', authUser.id)
-        .single() as { data: { preferences: { welcomeSeen?: boolean } | null } | null }
-      
-      const welcomeSeen = profileData?.preferences?.welcomeSeen
-      if (!welcomeSeen) {
-        window.location.href = '/welcome'
         return
       }
 
@@ -118,9 +112,73 @@ export default function Dashboard() {
     )
   }
 
+  function handleDismissWelcomeBanner() {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('welcomeBannerDismissed', 'true')
+      setShowWelcomeBanner(false)
+    }
+  }
+
   return (
     <div className="min-h-screen p-4 md:p-8 pb-20 md:pb-8">
       <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
+        {/* Welcome Banner - Shows on each login until dismissed */}
+        <AnimatePresence>
+          {showWelcomeBanner && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="relative overflow-hidden rounded-3xl p-6 md:p-8 bg-gradient-to-br from-electric-500/20 via-dark-800 to-champion-500/20 border border-electric-500/30"
+            >
+              <button
+                onClick={handleDismissWelcomeBanner}
+                className="absolute top-4 right-4 p-2 hover:bg-dark-700/50 rounded-lg transition-colors"
+                aria-label="Dismiss welcome banner"
+              >
+                <X className="w-5 h-5 text-slate-400 hover:text-white" />
+              </button>
+              
+              <div className="flex flex-col md:flex-row items-start md:items-center gap-6 pr-10">
+                <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-electric-500 to-champion-500 rounded-2xl flex items-center justify-center shadow-neon">
+                  <Dumbbell className="w-8 h-8 md:w-10 md:h-10 text-dark-950" />
+                </div>
+                
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
+                    Welcome to LiftMind! 🎉
+                  </h3>
+                  <p className="text-slate-300 mb-4 text-sm md:text-base">
+                    Your AI-powered fitness companion. Here&apos;s what you can do:
+                  </p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
+                      <Dumbbell className="w-4 h-4 text-electric-400" />
+                      <span>Log your workouts</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
+                      <Zap className="w-4 h-4 text-champion-400" />
+                      <span>Get AI coaching</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-400">
+                      <TrendingUp className="w-4 h-4 text-green-400" />
+                      <span>Track your progress</span>
+                    </div>
+                  </div>
+                  
+                  <Link href="/welcome">
+                    <Button variant="ghost" size="sm" className="text-electric-400 hover:text-electric-300">
+                      Learn More
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* AI Coach Section - Moved to Top */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
