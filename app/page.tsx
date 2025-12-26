@@ -41,7 +41,7 @@ export default function Dashboard() {
         .from('users')
         .select('preferences')
         .eq('id', authUser.id)
-        .single()
+        .single() as { data: { preferences: { welcomeSeen?: boolean } | null } | null }
       
       const welcomeSeen = profileData?.preferences?.welcomeSeen
       if (!welcomeSeen) {
