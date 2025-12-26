@@ -13,7 +13,6 @@ import { loadConversationHistory, saveConversation, getUserContext } from '@/lib
 import { getThreadMessages, addMessageToThread, getUserThreads, createThread, deleteThread } from '@/lib/threads'
 import { parseAIResponse } from '@/lib/ai-actions'
 import { saveWorkoutAction, savePRAction, saveProfileAction } from '@/lib/action-handlers'
-import { Database } from '@/types/database.types'
 import { ParsedAIResponse } from '@/types/ai-actions'
 import { Send, Bot, User, X, ChevronDown, Plus, Trash2, MessageSquare } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'

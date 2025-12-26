@@ -387,19 +387,21 @@ export default function LogWorkoutPage() {
         })
       })
 
+      const workoutInsert = {
+        user_id: userId,
+        date: workoutDate,
+        lifts: lifts,
+        notes: workoutNotes || '',
+        session_rpe: sessionRPE,
+        total_reps: totalReps,
+        working_sets: workingSets,
+        total_volume: Math.round(totalVolume),
+        rpe_adjusted_volume: Math.round(rpeAdjustedVolume)
+      }
+
       const insertResult = await supabase
         .from('workouts')
-        .insert({
-          user_id: userId,
-          date: workoutDate,
-          lifts: lifts,
-          notes: workoutNotes || '',
-          session_rpe: sessionRPE,
-          total_reps: totalReps,
-          working_sets: workingSets,
-          total_volume: Math.round(totalVolume),
-          rpe_adjusted_volume: Math.round(rpeAdjustedVolume)
-        })
+        .insert(workoutInsert as any)
         .select()
         .single()
 
@@ -415,7 +417,7 @@ export default function LogWorkoutPage() {
         return `${ex.name}: ${completedSets.length} sets completed`
       }).join(', ')
 
-      await supabase.from('sessions').insert({
+      const sessionInsert = {
         user_id: userId,
         summary: `Logged workout: ${sessionText}`,
         data: {
@@ -425,7 +427,9 @@ export default function LogWorkoutPage() {
           session_rpe: sessionRPE,
           exercises: lifts
         } as Record<string, unknown>
-      })
+      }
+
+      await supabase.from('sessions').insert(sessionInsert as any)
 
       toast.success('Workout saved successfully! 💪')
       // Success! Navigate to progress page

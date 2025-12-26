@@ -53,14 +53,15 @@ export default function Dashboard() {
         getUserProfile(authUser.id),
         getWorkouts(authUser.id, 30)
       ])
-      setUser(profile)
+      setUser(profile as User)
       
       // Load user preferences safely
       let userTrainingType: TrainingType = 'general_strength'
       let userUnits: 'kg' | 'lbs' = 'kg'
       
-      if (profile && profile.preferences) {
-        const prefs = profile.preferences as { units?: 'kg' | 'lbs'; trainingType?: TrainingType }
+      const userProfile = profile as User | null
+      if (userProfile && userProfile.preferences) {
+        const prefs = userProfile.preferences as { units?: 'kg' | 'lbs'; trainingType?: TrainingType }
         userUnits = prefs.units || 'kg'
         userTrainingType = getTrainingType(prefs)
       }

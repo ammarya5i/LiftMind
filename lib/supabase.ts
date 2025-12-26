@@ -1,13 +1,13 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { Database } from '@/types/database.types'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
 
 // Create a singleton instance to avoid multiple clients warning
-let supabaseInstance: ReturnType<typeof createClient<Database>> | null = null
+let supabaseInstance: SupabaseClient<Database> | null = null
 
-function getSupabaseClient() {
+function getSupabaseClient(): SupabaseClient<Database> {
   if (!supabaseInstance) {
     supabaseInstance = createClient<Database>(supabaseUrl, supabaseAnonKey, {
       auth: {
@@ -19,7 +19,7 @@ function getSupabaseClient() {
   return supabaseInstance
 }
 
-export const supabase = getSupabaseClient()
+export const supabase: SupabaseClient<Database> = getSupabaseClient()
 
 // Helper functions for common queries
 export async function getCurrentUser() {

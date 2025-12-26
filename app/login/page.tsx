@@ -49,7 +49,7 @@ export default function LoginPage() {
           const welcomeSeen = profile?.preferences?.welcomeSeen
           router.push(welcomeSeen ? '/' : '/welcome')
         } else {
-          router.push('/')
+        router.push('/')
         }
       } else {
         // Sign up

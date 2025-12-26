@@ -42,14 +42,15 @@ export default function WelcomePage() {
         .single() as { data: { preferences: Record<string, unknown> | null } | null }
 
       const preferences = (profile?.preferences as Record<string, unknown>) || {}
-      await supabase
+      const updateData: Record<string, unknown> = {
+        preferences: {
+          ...preferences,
+          welcomeSeen: true
+        }
+      }
+      await (supabase as any)
         .from('users')
-        .update({
-          preferences: {
-            ...preferences,
-            welcomeSeen: true
-          }
-        })
+        .update(updateData)
         .eq('id', user.id)
 
       router.push('/')
