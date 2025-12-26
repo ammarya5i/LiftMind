@@ -128,7 +128,7 @@ async function analyzeVideoWithGemini(videoDataUrl: string, userPrompt: string, 
       const candidate = (data?.candidates as GeminiCandidate[] | undefined)?.find(
         (c) => c?.content?.parts?.some((p) => p.text)
       )
-      if (!candidate) {
+      if (!candidate || !candidate.content || !candidate.content.parts) {
         console.error('Gemini unexpected payload:', JSON.stringify(data, null, 2))
         lastError = new Error('Invalid response from Gemini API')
         continue
@@ -209,7 +209,7 @@ async function analyzeWithGemini(imageDataUrl: string, userPrompt: string, analy
       const candidate = (data?.candidates as GeminiCandidate[] | undefined)?.find(
         (c) => c?.content?.parts?.some((p) => p.text)
       )
-      if (!candidate) {
+      if (!candidate || !candidate.content || !candidate.content.parts) {
         console.error('Gemini unexpected payload:', JSON.stringify(data, null, 2))
         lastError = new Error('Invalid response from Gemini API')
         continue
