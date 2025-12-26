@@ -228,17 +228,18 @@ export default function ProgressPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center space-y-4"
+            className="space-y-4"
           >
-            <div className="flex items-center justify-center space-x-3">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-champion-500/20 to-champion-600/20">
-                <Trophy className="w-8 h-8 text-champion-500" />
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="p-3 rounded-2xl bg-gradient-to-br from-champion-500/20 to-champion-600/20">
+                  <Trophy className="w-8 h-8 text-champion-500" />
+                </div>
+                <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-electric-400 to-champion-500 bg-clip-text text-transparent">
+                  Lift Progression
+                </h1>
               </div>
-              <h1 className="text-4xl md:text-5xl font-display font-bold bg-gradient-to-r from-electric-400 to-champion-500 bg-clip-text text-transparent">
-                Lift Progression
-              </h1>
-            </div>
-            <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+              <p className="text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
               {trainingType === 'powerlifting' 
                 ? 'Track your strength gains on the big three lifts with detailed analytics'
                 : trainingType === 'bodybuilding'

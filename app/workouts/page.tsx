@@ -192,10 +192,29 @@ export default function WorkoutsPage() {
                 </div>
                 <div>
                   <h1 className="text-3xl md:text-4xl font-display font-bold text-white">Workout History</h1>
-                  <p className="text-slate-400">View and analyze your training sessions</p>
+                  <p className="text-slate-400 text-sm md:text-base">View and analyze your training sessions</p>
                 </div>
               </div>
             </div>
+            
+            {/* Help Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="glass-card p-4 md:p-6 rounded-2xl border-electric-500/20"
+            >
+              <h3 className="text-sm md:text-base font-semibold text-white mb-2 flex items-center gap-2">
+                <Calendar className="w-4 h-4 md:w-5 md:h-5 text-electric-400" />
+                Using Workout History
+              </h3>
+              <ul className="space-y-1.5 text-xs md:text-sm text-slate-400 list-disc list-inside">
+                <li>Search by exercise name or notes to find specific workouts</li>
+                <li>Filter by month to see workouts from a specific time period</li>
+                <li>Click on any workout to see detailed information</li>
+                <li>Your training type badge shows what style you were training</li>
+              </ul>
+            </motion.div>
             <div className="text-right">
               <p className="text-sm text-slate-500">Total Workouts</p>
               <p className="text-2xl font-bold text-electric-400">{workouts.length}</p>

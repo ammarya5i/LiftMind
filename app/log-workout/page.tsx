@@ -447,31 +447,54 @@ export default function LogWorkoutPage() {
   if (loading) return <Loading />
 
   return (
-    <div className="min-h-screen p-4 md:p-8">
+    <div className="min-h-screen p-4 md:p-8 pb-20 md:pb-8">
       <div className="max-w-4xl mx-auto space-y-6">
-        {/* Header */}
+        {/* Header with Instructions */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between"
+          className="space-y-4"
         >
-          <div>
-            <h1 className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-r from-electric-400 to-champion-400 bg-clip-text text-transparent">
-              Log Workout
-            </h1>
-            <p className="text-slate-400 mt-1">Track your training session</p>
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-display font-bold bg-gradient-to-r from-electric-400 to-champion-400 bg-clip-text text-transparent">
+                Log Your Workout
+              </h1>
+              <p className="text-slate-400 mt-1 text-sm md:text-base">Track your training session step by step</p>
+            </div>
+            <button 
+              onClick={() => router.push('/progress')} 
+              className="flex items-center space-x-2 px-4 py-2 rounded-xl text-slate-400 hover:text-electric-400 hover:bg-dark-800/50 transition-all text-sm md:text-base"
+            >
+              <TrendingUp className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="hidden md:inline">Progress</span>
+            </button>
           </div>
-          <button 
-            onClick={() => router.push('/progress')} 
-            className="flex items-center space-x-2 px-4 py-2 rounded-xl text-slate-400 hover:text-electric-400 hover:bg-dark-800/50 transition-all"
+          
+          {/* Step-by-step Guide */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="glass-card p-4 md:p-6 rounded-2xl border-electric-500/20"
           >
-            <TrendingUp className="w-5 h-5" />
-            <span>Progress</span>
-          </button>
+            <h3 className="text-sm md:text-base font-semibold text-white mb-3 flex items-center gap-2">
+              <span className="w-6 h-6 bg-electric-500/20 rounded-lg flex items-center justify-center text-electric-400 font-bold">?</span>
+              How to log your workout:
+            </h3>
+            <ol className="space-y-2 text-sm md:text-base text-slate-400 list-decimal list-inside">
+              <li>Click &quot;Add Exercise&quot; below to start</li>
+              <li>Select an exercise from the dropdown</li>
+              <li>Enter your sets: reps, weight, and effort level (RPE/RIR)</li>
+              <li>Check the box when you complete each set</li>
+              <li>Add more exercises or sets as needed</li>
+              <li>Click &quot;Save Workout&quot; when done</li>
+            </ol>
+          </motion.div>
         </motion.div>
 
         {/* Workout Date & Session RPE */}
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -482,11 +505,13 @@ export default function LogWorkoutPage() {
                 type="date"
                 value={workoutDate}
                 onChange={(e) => setWorkoutDate(e.target.value)}
+                className="w-full"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
-                Session RPE (1-10)
+                Overall Difficulty
+                <span className="text-xs text-slate-500 ml-2">(1-10)</span>
               </label>
               <Input
                 type="number"
@@ -494,8 +519,10 @@ export default function LogWorkoutPage() {
                 max="10"
                 value={sessionRPE}
                 onChange={(e) => setSessionRPE(Number(e.target.value))}
-                placeholder="How hard was the overall session?"
+                placeholder="How hard was it?"
+                className="w-full"
               />
+              <p className="text-xs text-slate-500 mt-1">1 = Easy, 10 = Maximum effort</p>
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -506,29 +533,35 @@ export default function LogWorkoutPage() {
                   variant={effortMode === 'rpe' ? 'primary' : 'secondary'}
                   size="sm"
                   onClick={() => setEffortMode('rpe')}
-                  className="flex-1"
+                  className="flex-1 text-xs md:text-sm"
+                  title="Rate of Perceived Exertion: How hard the set felt (1-10)"
                 >
-                  RPE (1-10)
+                  RPE
                 </Button>
                 <Button
                   variant={effortMode === 'rir' ? 'primary' : 'secondary'}
                   size="sm"
                   onClick={() => setEffortMode('rir')}
-                  className="flex-1"
+                  className="flex-1 text-xs md:text-sm"
+                  title="Reps in Reserve: How many more reps you could do (0-5+)"
                 >
-                  RIR (0-5+)
+                  RIR
                 </Button>
               </div>
+              <p className="text-xs text-slate-500 mt-1">
+                {effortMode === 'rpe' ? 'RPE: How hard it felt' : 'RIR: Reps left in the tank'}
+              </p>
             </div>
           </div>
         </Card>
 
         {/* Quick Add Section */}
         {trainingType !== 'general_strength' && (
-          <Card className="p-4">
-            <h3 className="text-sm font-semibold text-slate-300 mb-3">
-              Quick Add ({getTrainingTypeLabel(trainingType)})
+          <Card className="p-4 md:p-6">
+            <h3 className="text-sm md:text-base font-semibold text-slate-300 mb-3">
+              Quick Add - {getTrainingTypeLabel(trainingType)} Exercises
             </h3>
+            <p className="text-xs text-slate-500 mb-3">Tap to quickly add your most common exercises</p>
             <div className="flex flex-wrap gap-2">
               {getPrimaryExercises(trainingType).slice(0, 4).map(exercise => (
                 <Button
@@ -536,6 +569,7 @@ export default function LogWorkoutPage() {
                   variant="secondary"
                   size="sm"
                   onClick={() => addExerciseWithName(exercise)}
+                  className="text-xs md:text-sm"
                 >
                   {exercise}
                 </Button>
@@ -553,45 +587,50 @@ export default function LogWorkoutPage() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
             >
-              <Card className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex-1 max-w-xs">
+              <Card className="p-4 md:p-6">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+                  <div className="flex-1 w-full md:max-w-xs">
+                    <label className="block text-xs text-slate-500 mb-1">Exercise</label>
                     <Select
                       value={exercise.name}
                       onChange={(e) => updateExercise(exercise.id, 'name', e.target.value)}
                       options={getOrderedExercises()}
                     />
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-slate-400">
+                  <div className="flex items-center justify-between md:justify-end w-full md:w-auto gap-4">
+                    <span className="text-xs md:text-sm text-slate-400">
                       Volume: <span className="font-bold text-white">{calculateVolume(exercise)}</span> {units}
                     </span>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => removeExercise(exercise.id)}
+                      className="text-red-500 hover:text-red-400"
+                      title="Remove exercise"
                     >
-                      <Trash2 className="w-4 h-4 text-red-500" />
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
 
                 {/* Sets Table */}
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-dark-700">
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">Set</th>
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">Reps</th>
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">Weight ({units})</th>
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">
-                          {effortMode === 'rpe' ? 'RPE' : 'RIR'}
-                        </th>
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">Est. 1RM</th>
-                        <th className="text-left py-2 px-2 text-sm font-medium text-slate-300">✓</th>
-                        <th className="py-2 px-2"></th>
-                      </tr>
-                    </thead>
+                <div className="overflow-x-auto -mx-4 md:mx-0">
+                  <div className="px-4 md:px-0">
+                    <p className="text-xs text-slate-500 mb-2">Fill in your sets below. Check ✓ when completed.</p>
+                    <table className="w-full min-w-[600px]">
+                      <thead>
+                        <tr className="border-b border-dark-700">
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300">Set</th>
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300">Reps</th>
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300">Weight ({units})</th>
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300">
+                            {effortMode === 'rpe' ? 'RPE' : 'RIR'}
+                          </th>
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300 hidden md:table-cell">Est. 1RM</th>
+                          <th className="text-left py-2 px-2 text-xs md:text-sm font-medium text-slate-300">Done</th>
+                          <th className="py-2 px-2"></th>
+                        </tr>
+                      </thead>
                     <tbody>
                       {exercise.sets.map((set, setIndex) => (
                         <tr key={set.id} className="border-b border-slate-100">
@@ -602,7 +641,8 @@ export default function LogWorkoutPage() {
                               min="1"
                               value={set.reps}
                               onChange={(e) => updateSet(exercise.id, set.id, 'reps', Number(e.target.value))}
-                              className="w-20"
+                              className="w-16 md:w-20 text-sm"
+                              placeholder="5"
                             />
                           </td>
                           <td className="py-2 px-2">
@@ -612,7 +652,8 @@ export default function LogWorkoutPage() {
                               step={units === 'kg' ? "2.5" : "5"}
                               value={set.weight}
                               onChange={(e) => updateSet(exercise.id, set.id, 'weight', Number(e.target.value))}
-                              className="w-24"
+                              className="w-20 md:w-24 text-sm"
+                              placeholder="0"
                             />
                           </td>
                           <td className="py-2 px-2">
@@ -622,11 +663,11 @@ export default function LogWorkoutPage() {
                               max={effortMode === 'rpe' ? "10" : "10"}
                               value={getEffortValue(set)}
                               onChange={(e) => updateEffortValue(exercise.id, set.id, Number(e.target.value))}
-                              className="w-20"
+                              className="w-16 md:w-20 text-sm"
                               placeholder={effortMode === 'rpe' ? "7" : "3"}
                             />
                           </td>
-                          <td className="py-2 px-2 text-sm text-electric-400">
+                          <td className="py-2 px-2 text-xs md:text-sm text-electric-400 hidden md:table-cell">
                             {set.weight > 0 && set.reps > 0 ? calculate1RM(set.weight, set.reps) : '-'} {units}
                           </td>
                           <td className="py-2 px-2">
@@ -634,7 +675,8 @@ export default function LogWorkoutPage() {
                               type="checkbox"
                               checked={set.completed}
                               onChange={(e) => updateSet(exercise.id, set.id, 'completed', e.target.checked)}
-                              className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary"
+                              className="w-5 h-5 rounded border-slate-300 text-primary focus:ring-primary cursor-pointer"
+                              title="Mark as completed"
                             />
                           </td>
                           <td className="py-2 px-2">
@@ -650,18 +692,19 @@ export default function LogWorkoutPage() {
                           </td>
                         </tr>
                       ))}
-                    </tbody>
-                  </table>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
 
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => addSet(exercise.id)}
-                  className="mt-3"
+                  className="mt-3 text-sm"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Set
+                  Add Another Set
                 </Button>
               </Card>
             </motion.div>
@@ -669,31 +712,36 @@ export default function LogWorkoutPage() {
         </div>
 
         {/* Add Exercise Button */}
-        <Button onClick={addExercise} className="w-full">
+        <Button onClick={addExercise} className="w-full text-base md:text-lg py-4">
           <Plus className="w-5 h-5 mr-2" />
           Add Exercise
         </Button>
+        <p className="text-xs text-center text-slate-500 mt-2">
+          Add all exercises from your workout session
+        </p>
 
         {/* Workout Notes */}
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <label className="block text-sm font-medium text-slate-300 mb-2">
-            Workout Notes (Optional)
+            Workout Notes <span className="text-xs text-slate-500">(Optional)</span>
           </label>
+          <p className="text-xs text-slate-500 mb-2">How did you feel? Any observations about form, fatigue, or performance?</p>
           <textarea
             value={workoutNotes}
             onChange={(e) => setWorkoutNotes(e.target.value)}
-            placeholder="How did you feel? Any observations about form, fatigue, or performance?"
+            placeholder="Example: Felt strong today. Bench press felt smooth. Legs were tired from yesterday's session."
             rows={3}
-            className="input-dark w-full"
+            className="input-dark w-full text-sm md:text-base"
           />
         </Card>
 
         {/* Save Button */}
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4">
           <Button
             onClick={saveWorkout}
             disabled={saving || exercises.length === 0}
-            className="flex-1"
+            className="flex-1 text-base md:text-lg py-4"
+            size="lg"
           >
             <Save className="w-5 h-5 mr-2" />
             {saving ? 'Saving...' : 'Save Workout'}
@@ -701,10 +749,16 @@ export default function LogWorkoutPage() {
           <Button
             variant="ghost"
             onClick={() => router.push('/')}
+            className="md:w-auto"
           >
             Cancel
           </Button>
         </div>
+        {exercises.length === 0 && (
+          <p className="text-xs text-center text-slate-500 mt-2">
+            Add at least one exercise to save your workout
+          </p>
+        )}
       </div>
     </div>
   )

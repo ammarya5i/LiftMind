@@ -11,6 +11,8 @@ import { getContextualTip } from '@/lib/ai-coach'
 import { getTrainingType } from '@/lib/training-type'
 import { calculateDashboardMetrics, DashboardMetrics } from '@/lib/dashboard-metrics'
 import { TrainingType } from '@/types/database.types'
+import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 
 type User = Database['public']['Tables']['users']['Row']
 
@@ -31,6 +33,19 @@ export default function Dashboard() {
       const authUser = await getCurrentUser()
       if (!authUser) {
         window.location.href = '/login'
+        return
+      }
+
+      // Check if user has seen welcome page
+      const { data: profileData } = await supabase
+        .from('users')
+        .select('preferences')
+        .eq('id', authUser.id)
+        .single()
+      
+      const welcomeSeen = profileData?.preferences?.welcomeSeen
+      if (!welcomeSeen) {
+        window.location.href = '/welcome'
         return
       }
 
@@ -104,19 +119,59 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen p-4 md:p-8 pb-20 md:pb-8">
-      <div className="max-w-7xl mx-auto space-y-8 md:space-y-12">
+      <div className="max-w-7xl mx-auto space-y-6 md:space-y-8">
+        {/* AI Coach Section - Moved to Top */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-3xl p-6 md:p-10 bg-gradient-to-br from-electric-500/10 via-dark-800 to-champion-500/10 border border-electric-500/30"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-electric-500/10 rounded-full blur-3xl" />
+          <div className="relative z-10">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+              <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-electric-500 to-champion-500 rounded-2xl flex items-center justify-center shadow-neon animate-glow">
+                <Brain className="w-8 h-8 md:w-10 md:h-10 text-dark-950" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-3">
+                  <h3 className="text-xl md:text-2xl font-display font-bold text-white flex items-center gap-2">
+                    Your AI Coach
+                    <Sparkles className="w-5 h-5 text-electric-400 animate-pulse" />
+                  </h3>
+                  <Link href="/coach">
+                    <Button variant="ghost" size="sm" className="text-electric-400 hover:text-electric-300">
+                      Chat Now →
+                    </Button>
+                  </Link>
+                </div>
+                {loadingTip ? (
+                  <div className="flex items-center gap-2 text-slate-400">
+                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+                    <span className="ml-2">Getting your personalized tip...</span>
+                  </div>
+                ) : (
+                  <p className="text-slate-300 leading-relaxed text-base md:text-lg">{aiTip}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Hero Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl p-8 md:p-12 bg-gradient-to-br from-dark-800 via-dark-900 to-dark-950 border border-dark-700/50"
+          transition={{ delay: 0.1 }}
+          className="relative overflow-hidden rounded-3xl p-6 md:p-10 bg-gradient-to-br from-dark-800 via-dark-900 to-dark-950 border border-dark-700/50"
         >
           {/* Animated glow */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-electric-500/20 rounded-full blur-[120px] animate-pulse-slow" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-champion-500/15 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
           
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-4">
+            <div className="space-y-3 md:space-y-4">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -132,7 +187,7 @@ export default function Dashboard() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-4xl md:text-6xl font-display font-bold"
+                className="text-3xl md:text-5xl lg:text-6xl font-display font-bold"
               >
                 <span className="bg-gradient-to-r from-electric-400 to-champion-400 bg-clip-text text-transparent">
                   Welcome back,
@@ -145,7 +200,7 @@ export default function Dashboard() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-slate-400 text-lg"
+                className="text-slate-400 text-base md:text-lg"
               >
                 Ready to crush today&apos;s session? Let&apos;s make it count. 💪
               </motion.p>
@@ -157,9 +212,9 @@ export default function Dashboard() {
               transition={{ delay: 0.5 }}
             >
               <Link href="/log-workout">
-                <button className="group relative px-8 py-4 bg-gradient-to-r from-electric-600 to-electric-500 text-white font-bold text-lg rounded-2xl overflow-hidden shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105">
+                <button className="group relative px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-electric-600 to-electric-500 text-white font-bold text-base md:text-lg rounded-2xl overflow-hidden shadow-neon hover:shadow-neon-lg transition-all duration-300 hover:scale-105">
                   <span className="relative z-10 flex items-center space-x-2">
-                    <Dumbbell className="w-6 h-6" />
+                    <Dumbbell className="w-5 h-5 md:w-6 md:h-6" />
                     <span>Log Workout</span>
                   </span>
                   <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
@@ -278,37 +333,6 @@ export default function Dashboard() {
             </div>
           </motion.div>
         )}
-        {/* AI Coach Tip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1 }}
-          className="relative overflow-hidden rounded-3xl p-8 bg-gradient-to-br from-electric-500/10 via-dark-800 to-champion-500/10 border border-electric-500/30"
-        >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-electric-500/10 rounded-full blur-3xl" />
-          <div className="relative z-10">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-electric-500 to-champion-500 rounded-2xl flex items-center justify-center shadow-neon animate-glow">
-                <Brain className="w-6 h-6 text-dark-950" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-display font-bold text-white mb-2 flex items-center gap-2">
-                  AI Coach Says
-                  <Sparkles className="w-5 h-5 text-electric-400 animate-pulse" />
-                </h3>
-                {loadingTip ? (
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                    <div className="w-2 h-2 bg-electric-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
-                  </div>
-                ) : (
-                  <p className="text-slate-300 leading-relaxed">{aiTip}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        </motion.div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

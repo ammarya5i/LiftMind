@@ -291,13 +291,34 @@ export default function SettingsPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="space-y-2"
+        className="space-y-4"
       >
-        <div className="flex items-center space-x-3">
-          <SettingsIcon className="w-8 h-8 text-electric-500" />
-          <h1 className="text-4xl font-bold text-white">Settings</h1>
+        <div className="space-y-2">
+          <div className="flex items-center space-x-3">
+            <SettingsIcon className="w-8 h-8 text-electric-500" />
+            <h1 className="text-3xl md:text-4xl font-bold text-white">Settings</h1>
+          </div>
+          <p className="text-slate-400 text-sm md:text-base">Manage your profile and training preferences</p>
         </div>
-        <p className="text-slate-400">Manage your profile and training preferences</p>
+        
+        {/* Help Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="glass-card p-4 md:p-6 rounded-2xl border-electric-500/20"
+        >
+          <h3 className="text-sm md:text-base font-semibold text-white mb-2 flex items-center gap-2">
+            <SettingsIcon className="w-4 h-4 md:w-5 md:h-5 text-electric-400" />
+            Settings Guide
+          </h3>
+          <ul className="space-y-1.5 text-xs md:text-sm text-slate-400 list-disc list-inside">
+            <li><strong>Training Type:</strong> Select your primary training style to get personalized metrics</li>
+            <li><strong>Units:</strong> Choose kg or lbs for weight measurements</li>
+            <li><strong>Experience Level:</strong> Helps AI coach give appropriate advice</li>
+            <li><strong>Goal:</strong> Set your fitness goal to get targeted recommendations</li>
+          </ul>
+        </motion.div>
       </motion.div>
 
       {successMessage && (

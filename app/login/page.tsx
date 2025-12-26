@@ -36,7 +36,21 @@ export default function LoginPage() {
           password,
         })
         if (error) throw error
-        router.push('/')
+        
+        // Check if user has seen welcome page
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+          const { data: profile } = await supabase
+            .from('users')
+            .select('preferences')
+            .eq('id', user.id)
+            .single()
+          
+          const welcomeSeen = profile?.preferences?.welcomeSeen
+          router.push(welcomeSeen ? '/' : '/welcome')
+        } else {
+          router.push('/')
+        }
       } else {
         // Sign up
         const { error } = await supabase.auth.signUp({
@@ -49,7 +63,7 @@ export default function LoginPage() {
         const { data: session } = await supabase.auth.getSession()
         if (session.session) {
           // No email confirmation required - user is logged in
-          router.push('/')
+          router.push('/welcome')
         } else {
           // Email confirmation required - switch to sign in mode
           setError('Success! Account created. Check your email for the confirmation link, then sign in.')
