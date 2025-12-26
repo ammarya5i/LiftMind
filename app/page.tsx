@@ -12,7 +12,6 @@ import { getTrainingType } from '@/lib/training-type'
 import { calculateDashboardMetrics, DashboardMetrics } from '@/lib/dashboard-metrics'
 import { TrainingType } from '@/types/database.types'
 import { supabase } from '@/lib/supabase'
-import Link from 'next/link'
 
 type User = Database['public']['Tables']['users']['Row']
 
