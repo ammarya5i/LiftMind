@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { Loading } from '@/components/ui/Loading'
+import { Button } from '@/components/ui/Button'
 import { getCurrentUser, getUserProfile, getWorkouts } from '@/lib/supabase'
 import { Database } from '@/types/database.types'
 import { Calendar, Flame, Dumbbell, Zap, Brain, Sparkles, Trophy, TrendingUp } from 'lucide-react'
@@ -58,8 +59,8 @@ export default function Dashboard() {
       let userTrainingType: TrainingType = 'general_strength'
       let userUnits: 'kg' | 'lbs' = 'kg'
       
-      if (profile && (profile as any).preferences) {
-        const prefs = (profile as any).preferences
+      if (profile && profile.preferences) {
+        const prefs = profile.preferences as { units?: 'kg' | 'lbs'; trainingType?: TrainingType }
         userUnits = prefs.units || 'kg'
         userTrainingType = getTrainingType(prefs)
       }

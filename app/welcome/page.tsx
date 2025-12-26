@@ -1,23 +1,17 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { getCurrentUser, supabase } from '@/lib/supabase'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
-import { Dumbbell, Zap, TrendingUp, MessageSquare, Target, Users, ArrowRight, Check } from 'lucide-react'
-import Link from 'next/link'
+import { Dumbbell, Zap, TrendingUp, MessageSquare, Target, Users, ArrowRight } from 'lucide-react'
 
 export default function WelcomePage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  const [currentStep, setCurrentStep] = useState(0)
 
-  useEffect(() => {
-    checkUser()
-  }, [])
-
-  async function checkUser() {
+  const checkUser = useCallback(async () => {
     try {
       const user = await getCurrentUser()
       if (!user) {
@@ -25,10 +19,15 @@ export default function WelcomePage() {
         return
       }
       setLoading(false)
-    } catch (error) {
+    } catch {
       router.push('/login')
     }
-  }
+  }, [router])
+
+  useEffect(() => {
+    checkUser()
+  }, [checkUser])
+
 
   async function handleGetStarted() {
     try {
