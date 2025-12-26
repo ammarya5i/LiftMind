@@ -45,8 +45,9 @@ export async function POST(req: Request) {
     // Text fallback if no vision API keys present
     const analysis = getTextFallback(userPrompt, analysisType)
     return NextResponse.json({ analysis })
-  } catch (error: any) {
-    return NextResponse.json({ error: error?.message || 'Vision analysis failed' }, { status: 500 })
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Vision analysis failed'
+    return NextResponse.json({ error: errorMessage }, { status: 500 })
   }
 }
 
@@ -119,7 +120,14 @@ async function analyzeVideoWithGemini(videoDataUrl: string, userPrompt: string, 
         continue
       }
 
-      const candidate = data?.candidates?.find((c: any) => c?.content?.parts?.some((p: any) => p.text))
+      interface GeminiCandidate {
+        content?: {
+          parts?: Array<{ text?: string }>
+        }
+      }
+      const candidate = (data?.candidates as GeminiCandidate[] | undefined)?.find(
+        (c) => c?.content?.parts?.some((p) => p.text)
+      )
       if (!candidate) {
         console.error('Gemini unexpected payload:', JSON.stringify(data, null, 2))
         lastError = new Error('Invalid response from Gemini API')
@@ -127,8 +135,8 @@ async function analyzeVideoWithGemini(videoDataUrl: string, userPrompt: string, 
       }
 
       const textParts = candidate.content.parts
-        .filter((part: any) => part.text)
-        .map((part: any) => part.text.trim())
+        .filter((part): part is { text: string } => typeof part.text === 'string')
+        .map((part) => part.text.trim())
         .filter(Boolean)
 
       if (textParts.length === 0) {
@@ -193,7 +201,14 @@ async function analyzeWithGemini(imageDataUrl: string, userPrompt: string, analy
         continue
       }
 
-      const candidate = data?.candidates?.find((c: any) => c?.content?.parts?.some((p: any) => p.text))
+      interface GeminiCandidate {
+        content?: {
+          parts?: Array<{ text?: string }>
+        }
+      }
+      const candidate = (data?.candidates as GeminiCandidate[] | undefined)?.find(
+        (c) => c?.content?.parts?.some((p) => p.text)
+      )
       if (!candidate) {
         console.error('Gemini unexpected payload:', JSON.stringify(data, null, 2))
         lastError = new Error('Invalid response from Gemini API')
@@ -201,8 +216,8 @@ async function analyzeWithGemini(imageDataUrl: string, userPrompt: string, analy
       }
 
       const textParts = candidate.content.parts
-        .filter((part: any) => part.text)
-        .map((part: any) => part.text.trim())
+        .filter((part): part is { text: string } => typeof part.text === 'string')
+        .map((part) => part.text.trim())
         .filter(Boolean)
 
       if (textParts.length === 0) {

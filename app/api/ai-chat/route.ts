@@ -56,7 +56,14 @@ export async function POST(request: NextRequest) {
 
     const sanitizedHistory: ChatMessage[] = Array.isArray(conversationHistory)
       ? conversationHistory
-          .filter((msg: any): msg is ChatMessage => typeof msg?.role === 'string' && typeof msg?.content === 'string')
+          .filter((msg): msg is ChatMessage => {
+            return typeof msg === 'object' && 
+                   msg !== null && 
+                   'role' in msg && 
+                   'content' in msg &&
+                   typeof msg.role === 'string' && 
+                   typeof msg.content === 'string'
+          })
           .map(msg => ({ role: msg.role as ChatMessage['role'], content: msg.content }))
           .slice(-10)
       : []
