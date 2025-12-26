@@ -44,7 +44,7 @@ export default function LoginPage() {
             .from('users')
             .select('preferences')
             .eq('id', user.id)
-            .single()
+            .single() as { data: { preferences: { welcomeSeen?: boolean } | null } | null }
           
           const welcomeSeen = profile?.preferences?.welcomeSeen
           router.push(welcomeSeen ? '/' : '/welcome')
